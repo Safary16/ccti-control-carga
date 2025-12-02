@@ -95,6 +95,11 @@
             transform: scale(1.05);
         }
         
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
         table {
             width: 100%;
             border-collapse: collapse;
@@ -703,22 +708,321 @@
             }
         }
         
+        /* ==================== MOBILE RESPONSIVE STYLES ==================== */
+        
         @media (max-width: 768px) {
-            .estado-grid {
-                grid-template-columns: repeat(2, 1fr);
+            body {
+                padding: 10px;
             }
             
+            /* Header mobile optimization */
+            .header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 15px;
+                padding-bottom: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .logo-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .logo {
+                height: 80px;
+            }
+            
+            .header-info {
+                text-align: center;
+            }
+            
+            .fecha {
+                font-size: 20px;
+            }
+            
+            .titulo {
+                font-size: 16px;
+            }
+            
+            /* Tables mobile optimization */
+            .table-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                margin: 0 -10px;
+                padding: 0 10px;
+            }
+            
+            table {
+                min-width: 600px;
+                font-size: 11px;
+            }
+            
+            th, td {
+                padding: 8px 5px;
+                font-size: 10px;
+            }
+            
+            th {
+                font-size: 9px;
+            }
+            
+            /* Section headers mobile */
+            h2 {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+            
+            .btn-editar {
+                width: 100%;
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+            
+            /* Totales generales mobile */
+            .totales-generales {
+                flex-direction: column;
+                gap: 20px;
+                padding: 15px;
+            }
+            
+            .total-valor {
+                font-size: 28px;
+            }
+            
+            .total-label {
+                font-size: 12px;
+            }
+            
+            /* Estado grid mobile */
+            .estado-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .estado-card {
+                padding: 12px;
+            }
+            
+            .cliente-nombre {
+                font-size: 11px;
+            }
+            
+            .estado-icono {
+                font-size: 28px;
+            }
+            
+            .estado-texto {
+                font-size: 10px;
+            }
+            
+            .subventanas {
+                gap: 3px;
+            }
+            
+            .subventana {
+                padding: 4px 6px;
+                font-size: 9px;
+                min-width: 30px;
+            }
+            
+            .subventana-valor {
+                font-size: 12px;
+            }
+            
+            /* ETAs grid mobile */
             .etas-grid {
                 grid-template-columns: 1fr;
             }
             
+            .etas-section {
+                padding: 10px;
+            }
+            
+            .etas-section h3 {
+                margin: -10px -10px 10px -10px;
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+            
+            .eta-card {
+                padding: 8px;
+            }
+            
+            .eta-cliente {
+                font-size: 11px;
+            }
+            
+            .eta-fecha {
+                font-size: 10px;
+            }
+            
+            /* Retiros grid mobile */
+            .retiros-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .retiro-card {
+                padding: 12px;
+            }
+            
+            /* Panel editing mobile */
             .panel-edicion {
                 width: 100%;
                 right: -100%;
             }
             
-            .retiros-grid {
+            .panel-header {
+                padding: 15px;
+            }
+            
+            .panel-header h3 {
+                font-size: 16px;
+                padding-right: 40px;
+            }
+            
+            .btn-cerrar-panel {
+                top: 10px;
+                right: 10px;
+            }
+            
+            .panel-contenido {
+                padding: 15px;
+            }
+            
+            /* Tabs mobile */
+            .tabs {
+                gap: 3px;
+                margin-bottom: 10px;
+            }
+            
+            .tab {
+                padding: 8px 10px;
+                font-size: 10px;
+                flex: 1;
+                text-align: center;
+            }
+            
+            /* Form controls mobile - better touch targets */
+            .seccion-edicion {
+                padding: 12px;
+                margin-bottom: 15px;
+            }
+            
+            .seccion-titulo {
+                font-size: 12px;
+                margin-bottom: 12px;
+            }
+            
+            .campo-edicion {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+                padding: 10px;
+            }
+            
+            .campo-label {
+                text-align: center;
+                font-size: 13px;
+            }
+            
+            .campo-controles {
+                justify-content: center;
+                gap: 12px;
+            }
+            
+            .btn-control {
+                width: 44px;
+                height: 44px;
+                font-size: 20px;
+            }
+            
+            .campo-valor {
+                min-width: 50px;
+                padding: 8px 15px;
+                font-size: 16px;
+            }
+            
+            /* Form inputs mobile */
+            .form-group input,
+            .form-group select {
+                padding: 12px;
+                font-size: 16px;
+            }
+            
+            .btn-agregar,
+            .btn-guardar,
+            .btn-resetear {
+                padding: 14px;
+                font-size: 15px;
+            }
+            
+            /* Delete buttons mobile - larger touch targets */
+            .btn-eliminar-eta,
+            .btn-eliminar-retiro {
+                width: 32px;
+                height: 32px;
+                font-size: 18px;
+                opacity: 0.6;
+            }
+            
+            /* Success message mobile */
+            .mensaje-exito {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                text-align: center;
+            }
+            
+            /* Footer mobile */
+            .footer {
+                margin-top: 30px;
+                padding-top: 15px;
+            }
+            
+            .footer p {
+                font-size: 9px;
+            }
+        }
+        
+        /* Extra small devices */
+        @media (max-width: 480px) {
+            body {
+                padding: 8px;
+            }
+            
+            .logo {
+                height: 60px;
+            }
+            
+            .fecha {
+                font-size: 18px;
+            }
+            
+            .titulo {
+                font-size: 14px;
+            }
+            
+            .estado-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .total-valor {
+                font-size: 24px;
+            }
+            
+            h2 {
+                font-size: 13px;
+            }
+            
+            .tab {
+                padding: 6px 8px;
+                font-size: 9px;
             }
         }
     </style>
@@ -742,10 +1046,14 @@
         📦 Por Arribar
         <button class="btn-editar" onclick="abrirPanel()">✏️ Editar Datos</button>
     </h2>
-    <table id="tabla-arribar"></table>
+    <div class="table-container">
+        <table id="tabla-arribar"></table>
+    </div>
 
     <h2>✅ Disponible</h2>
-    <table id="tabla-disponible"></table>
+    <div class="table-container">
+        <table id="tabla-disponible"></table>
+    </div>
 
     <div class="totales-generales">
         <div class="total-item">
