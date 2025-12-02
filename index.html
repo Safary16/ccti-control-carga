@@ -794,6 +794,18 @@
             return JSON.parse(JSON.stringify(obj));
         }
         
+        // Función para extraer el conteo de naves de una fecha
+        // Ejemplo: "28-nov (2)" retorna 2, "23-nov" retorna 1
+        function contarNavesEnFecha(fechaStr) {
+            const match = fechaStr.match(/\((\d+)\)/);
+            return match ? parseInt(match[1], 10) : 1;
+        }
+        
+        // Función para sumar el total de naves de un array de fechas
+        function contarTotalNaves(fechas) {
+            return fechas.reduce((total, fecha) => total + contarNavesEnFecha(fecha), 0);
+        }
+        
         const DATOS_INICIALES = {
             clientes: ['WALMART', 'GY', 'ARCOR', 'TOTTUS', 'PG', 'CASA IDEAS', 'FALABELLA'],
             arribar: {
@@ -1195,6 +1207,7 @@
                         card.className = 'eta-card';
                         const escapedCliente = escapeHtml(cliente);
                         const escapedPuerto = escapeHtml(puerto);
+                        const totalNaves = contarTotalNaves(fechas);
                         card.innerHTML = `
                             <div class="eta-cliente">${escapedCliente}</div>
                             ${fechas.map((f, idx) => `
@@ -1203,7 +1216,7 @@
                                     <button class="btn-eliminar-eta" onclick="eliminarETA('${escapedPuerto}', '${escapedCliente}', ${idx})">×</button>
                                 </div>
                             `).join('')}
-                            <div class="eta-naves">${fechas.length} nave${fechas.length > 1 ? 's' : ''}</div>
+                            <div class="eta-naves">${totalNaves} nave${totalNaves > 1 ? 's' : ''}</div>
                         `;
                         column.appendChild(card);
                     });
