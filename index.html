@@ -296,7 +296,7 @@
         }
         
         .btn-eliminar-eta {
-            background: #F44336;
+            background: #999;
             color: white;
             border: none;
             width: 18px;
@@ -306,11 +306,20 @@
             font-size: 12px;
             line-height: 1;
             transition: all 0.2s;
+            opacity: 0.35;
         }
         
         .btn-eliminar-eta:hover {
             background: #D32F2F;
             transform: scale(1.1);
+            opacity: 1;
+        }
+        
+        .btn-eliminar-eta:focus {
+            outline: 2px solid #87CEEB;
+            outline-offset: 2px;
+            opacity: 1;
+            background: #D32F2F;
         }
         
         .footer {
@@ -643,7 +652,7 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            background: #F44336;
+            background: #999;
             color: white;
             border: none;
             width: 22px;
@@ -653,11 +662,20 @@
             font-size: 14px;
             line-height: 1;
             transition: all 0.2s;
+            opacity: 0.35;
         }
         
         .btn-eliminar-retiro:hover {
             background: #D32F2F;
             transform: scale(1.1);
+            opacity: 1;
+        }
+        
+        .btn-eliminar-retiro:focus {
+            outline: 2px solid #87CEEB;
+            outline-offset: 2px;
+            opacity: 1;
+            background: #D32F2F;
         }
         
         .mensaje-exito {
