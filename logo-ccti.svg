@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" role="img" aria-labelledby="ccti-logo-title">
+  <title id="ccti-logo-title">CCTI - Compañía Chilena de Transporte Intermodales</title>
   <defs>
     <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" style="stop-color:#ADD8E6"/>
