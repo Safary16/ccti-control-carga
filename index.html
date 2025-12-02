@@ -1207,6 +1207,7 @@
                         card.className = 'eta-card';
                         const escapedCliente = escapeHtml(cliente);
                         const escapedPuerto = escapeHtml(puerto);
+                        const totalNaves = contarTotalNaves(fechas);
                         card.innerHTML = `
                             <div class="eta-cliente">${escapedCliente}</div>
                             ${fechas.map((f, idx) => `
@@ -1215,7 +1216,7 @@
                                     <button class="btn-eliminar-eta" onclick="eliminarETA('${escapedPuerto}', '${escapedCliente}', ${idx})">×</button>
                                 </div>
                             `).join('')}
-                            <div class="eta-naves">${contarTotalNaves(fechas)} nave${contarTotalNaves(fechas) > 1 ? 's' : ''}</div>
+                            <div class="eta-naves">${totalNaves} nave${totalNaves > 1 ? 's' : ''}</div>
                         `;
                         column.appendChild(card);
                     });
