@@ -1,14 +1,14 @@
-<! DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control de Carga - CCTI - 02 Dic</title>
+    <title>Control de Carga - CCTI</title>
     <style>
         @media print {
             body { margin: 0; }
             @page { size: landscape; margin: 1cm; }
-            .panel-edicion { display: none ! important; }
+            .panel-edicion { display: none !important; }
             .btn-editar { display: none !important; }
         }
         
@@ -39,6 +39,12 @@
             width: auto;
         }
         
+        .logo-fallback {
+            font-size: 36px;
+            font-weight: bold;
+            color: #FF6B35;
+        }
+        
         .logo-subtitle {
             font-size: 12px;
             color: #666;
@@ -61,7 +67,7 @@
         }
         
         h2 {
-            background: linear-gradient(135deg, #64B5F6 0%, #42A5F5 100%);
+            background: linear-gradient(135deg, #FF8C5A 0%, #FF6B35 100%);
             color: white;
             padding: 12px 20px;
             margin: 30px 0 15px 0;
@@ -74,7 +80,7 @@
         
         .btn-editar {
             background: white;
-            color: #42A5F5;
+            color: #FF6B35;
             border: none;
             padding: 8px 16px;
             border-radius: 4px;
@@ -142,7 +148,7 @@
         
         .estado-grid {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 15px;
             margin-bottom: 30px;
         }
@@ -153,14 +159,20 @@
             padding: 15px;
             text-align: center;
             position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
         
-        .estado-card. disponible {
+        .estado-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .estado-card.disponible {
             background: #E8F5E9;
             border-color: #4CAF50;
         }
         
-        .estado-card. sin-disponible {
+        .estado-card.sin-disponible {
             background: #FFEBEE;
             border-color: #F44336;
         }
@@ -187,6 +199,7 @@
             gap: 5px;
             margin-top: 12px;
             justify-content: center;
+            flex-wrap: wrap;
         }
         
         .subventana {
@@ -196,6 +209,7 @@
             padding: 6px 10px;
             font-size: 10px;
             flex: 1;
+            min-width: 35px;
         }
         
         .subventana-label {
@@ -211,30 +225,34 @@
             color: #333;
         }
         
-        .subventana. clep {
+        .subventana.clep {
             border-left: 3px solid #2196F3;
         }
         
-        .subventana. ccti {
-            border-left: 3px solid #FF9800;
+        .subventana.ccti {
+            border-left: 3px solid #FF6B35;
         }
         
-        . etas-grid {
+        .subventana.zeal {
+            border-left: 3px solid #9C27B0;
+        }
+        
+        .etas-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
             margin-bottom: 20px;
         }
         
-        . etas-section {
-            border: 2px solid #64B5F6;
+        .etas-section {
+            border: 2px solid #FF6B35;
             border-radius: 8px;
             padding: 15px;
             background: #f9f9f9;
         }
         
         .etas-section h3 {
-            background: #64B5F6;
+            background: #FF6B35;
             color: white;
             padding: 8px 12px;
             margin: -15px -15px 15px -15px;
@@ -251,9 +269,10 @@
         
         .eta-card {
             background: #f5f5f5;
-            border-left: 4px solid #64B5F6;
+            border-left: 4px solid #FF6B35;
             padding: 10px;
             border-radius: 4px;
+            position: relative;
         }
         
         .eta-cliente {
@@ -265,12 +284,33 @@
         .eta-fecha {
             color: #666;
             font-size: 11px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         .eta-naves {
             color: #999;
             font-size: 10px;
             margin-top: 3px;
+        }
+        
+        .btn-eliminar-eta {
+            background: #F44336;
+            color: white;
+            border: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            line-height: 1;
+            transition: all 0.2s;
+        }
+        
+        .btn-eliminar-eta:hover {
+            background: #D32F2F;
+            transform: scale(1.1);
         }
         
         .footer {
@@ -283,7 +323,7 @@
         }
         
         .totales-generales {
-            background: linear-gradient(135deg, #64B5F6 0%, #42A5F5 100%);
+            background: linear-gradient(135deg, #FF8C5A 0%, #FF6B35 100%);
             color: white;
             padding: 20px;
             border-radius: 8px;
@@ -303,7 +343,7 @@
             margin-bottom: 5px;
         }
         
-        . total-valor {
+        .total-valor {
             font-size: 36px;
             font-weight: bold;
         }
@@ -311,8 +351,8 @@
         .panel-edicion {
             position: fixed;
             top: 0;
-            right: -450px;
-            width: 450px;
+            right: -500px;
+            width: 500px;
             height: 100vh;
             background: white;
             box-shadow: -2px 0 10px rgba(0,0,0,0.3);
@@ -321,12 +361,12 @@
             overflow-y: auto;
         }
         
-        .panel-edicion. abierto {
+        .panel-edicion.abierto {
             right: 0;
         }
         
         .panel-header {
-            background: linear-gradient(135deg, #64B5F6 0%, #42A5F5 100%);
+            background: linear-gradient(135deg, #FF8C5A 0%, #FF6B35 100%);
             color: white;
             padding: 20px;
             position: sticky;
@@ -334,7 +374,7 @@
             z-index: 1;
         }
         
-        . panel-header h3 {
+        .panel-header h3 {
             margin: 0;
             font-size: 18px;
         }
@@ -371,12 +411,12 @@
             padding: 15px;
             background: #f9f9f9;
             border-radius: 8px;
-            border-left: 4px solid #64B5F6;
+            border-left: 4px solid #FF6B35;
         }
         
         .seccion-titulo {
             font-weight: bold;
-            color: #42A5F5;
+            color: #FF6B35;
             margin-bottom: 15px;
             font-size: 14px;
             text-transform: uppercase;
@@ -405,7 +445,7 @@
         }
         
         .btn-control {
-            background: #42A5F5;
+            background: #FF6B35;
             color: white;
             border: none;
             width: 30px;
@@ -418,12 +458,20 @@
         }
         
         .btn-control:hover {
-            background: #1976D2;
+            background: #E55A25;
             transform: scale(1.1);
         }
         
         .btn-control:active {
             transform: scale(0.95);
+        }
+        
+        .btn-control.zeal {
+            background: #9C27B0;
+        }
+        
+        .btn-control.zeal:hover {
+            background: #7B1FA2;
         }
         
         .campo-valor {
@@ -456,7 +504,27 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
-        . overlay {
+        .btn-resetear {
+            width: 100%;
+            background: #F44336;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .btn-resetear:hover {
+            background: #D32F2F;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .overlay {
             position: fixed;
             top: 0;
             left: 0;
@@ -476,21 +544,22 @@
             gap: 5px;
             margin-bottom: 15px;
             border-bottom: 2px solid #ddd;
+            flex-wrap: wrap;
         }
 
-        . tab {
-            padding: 10px 20px;
+        .tab {
+            padding: 10px 15px;
             background: #f5f5f5;
             border: none;
             cursor: pointer;
             font-weight: bold;
-            font-size: 12px;
+            font-size: 11px;
             border-radius: 5px 5px 0 0;
             transition: all 0.3s;
         }
 
-        . tab.activo {
-            background: #42A5F5;
+        .tab.activo {
+            background: #FF6B35;
             color: white;
         }
 
@@ -505,19 +574,149 @@
         .tab-contenido.activo {
             display: block;
         }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #FF6B35;
+            outline: none;
+        }
+        
+        .btn-agregar {
+            background: #FF6B35;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .btn-agregar:hover {
+            background: #E55A25;
+        }
+        
+        .retiros-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .retiro-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #FF6B35;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .retiro-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .btn-eliminar-retiro {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #F44336;
+            color: white;
+            border: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1;
+            transition: all 0.2s;
+        }
+        
+        .btn-eliminar-retiro:hover {
+            background: #D32F2F;
+            transform: scale(1.1);
+        }
+        
+        .mensaje-exito {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 2000;
+            font-weight: bold;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .estado-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .etas-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .panel-edicion {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .retiros-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <div class="logo-container">
-            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDkwMCA1MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjI1MCIgY3k9IjI1MCIgcj0iMjAwIiBzdHJva2U9IiM0RTRFNEUiIHN0cm9rZS13aWR0aD0iNDAiIGZpbGw9Im5vbmUiLz4KPHBhdGggZD0iTTE1MCAyMDAgUSAyMDAgMTAwIDMwMCAxNTAiIHN0cm9rZT0iI0ZGOUIzNSIgc3Ryb2tlLXdpZHRoPSI1MCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CjxwYXRoIGQ9Ik0yMDAgMzUwIFEgMjUwIDMwMCAzNTAgMzAwIiBzdHJva2U9IiNGRjZCMzUiIHN0cm9rZS13aWR0aD0iNTAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgo8dGV4dCB4PSI1MjAiIHk9IjMyMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI4MCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiNGRjZCMzUiPkNDVEk8L3RleHQ+Cjwvc3ZnPg==" alt="CCTI Logo" class="logo">
+            <img src="https://i.imgur.com/xKzYOJN.png" alt="CCTI Logo" class="logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="logo-fallback" style="display: none;">CCTI</div>
             <div>
                 <div class="logo-subtitle">Compañía Chilena de Transporte Intermodales</div>
             </div>
         </div>
         <div class="header-info">
             <div class="titulo">Control de Carga por Cliente</div>
-            <div class="fecha">02 de Diciembre, 2025</div>
+            <div class="fecha" id="fecha-dinamica"></div>
         </div>
     </div>
 
@@ -545,24 +744,8 @@
     <div class="estado-grid" id="estado-grid"></div>
 
     <h2>📤 Retiros de Nave Considerados por CCTI</h2>
-    <div style="background: #FFF3E0; border: 2px solid #FF9800; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
-            <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #FF9800;">
-                <div style="font-weight: bold; font-size: 14px; color: #333; margin-bottom: 8px;">GOODYEAR</div>
-                <div style="color: #666; font-size: 12px;">📦 10 contenedores</div>
-                <div style="color: #666; font-size: 12px; margin-top: 4px;">🚢 Puerto: TPS</div>
-            </div>
-            <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #FF9800;">
-                <div style="font-weight: bold; font-size: 14px; color: #333; margin-bottom: 8px;">WALMART</div>
-                <div style="color: #666; font-size: 12px;">📦 12 contenedores</div>
-                <div style="color: #666; font-size: 12px; margin-top: 4px;">🚢 Puerto: TPS</div>
-            </div>
-            <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #FF9800;">
-                <div style="font-weight: bold; font-size: 14px; color: #333; margin-bottom: 8px;">ARCOR</div>
-                <div style="color: #666; font-size: 12px;">📦 2 contenedores</div>
-                <div style="color: #666; font-size: 12px; margin-top: 4px;">🚢 Puerto: STI - PCE</div>
-            </div>
-        </div>
+    <div id="retiros-container" style="background: #FFF3E0; border: 2px solid #FF6B35; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
+        <div class="retiros-grid" id="retiros-grid"></div>
     </div>
 
     <h2>🚢 ETAs Programadas</h2>
@@ -579,6 +762,7 @@
                 <button class="tab activo" onclick="cambiarTab(0)">📦 Por Arribar</button>
                 <button class="tab" onclick="cambiarTab(1)">✅ Disponible</button>
                 <button class="tab" onclick="cambiarTab(2)">🚢 ETAs</button>
+                <button class="tab" onclick="cambiarTab(3)">⚙️ Gestión</button>
             </div>
             <div id="panel-contenido-dinamico"></div>
         </div>
@@ -591,10 +775,27 @@
     </div>
 
     <script>
-        const CLIENTES = ['WALMART', 'GY', 'ARCOR', 'TOTTUS', 'PG', 'CASA IDEAS', 'FALABELLA'];
+        const STORAGE_KEY = 'ccti-control-carga';
         const PUERTOS = ['STI', 'TPS'];
-
-        let datos = {
+        
+        // Constantes de distribución de puertos
+        const PROPORCION_STI = 0.87;  // 87% para STI
+        const PROPORCION_TPS = 0.13;  // 13% para TPS
+        
+        // Función para sanitizar texto y prevenir XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Función para clonar objetos profundamente
+        function deepClone(obj) {
+            return JSON.parse(JSON.stringify(obj));
+        }
+        
+        const DATOS_INICIALES = {
+            clientes: ['WALMART', 'GY', 'ARCOR', 'TOTTUS', 'PG', 'CASA IDEAS', 'FALABELLA'],
             arribar: {
                 STI: { WALMART: 53, GY: 25, ARCOR: 2, TOTTUS: 11, PG: 19, 'CASA IDEAS': 0, FALABELLA: 0 },
                 TPS: { WALMART: 12, GY: 10, ARCOR: 0, TOTTUS: 0, PG: 2, 'CASA IDEAS': 2, FALABELLA: 0 }
@@ -604,13 +805,13 @@
                 TPS: { WALMART: 0, GY: 0, ARCOR: 0, TOTTUS: 0, PG: 0, 'CASA IDEAS': 0, FALABELLA: 0 }
             },
             distribucion: {
-                WALMART: { clep: 8, ccti: 7 },
-                GY: { clep: 30, ccti: 21 },
-                ARCOR: { clep: 0, ccti: 0 },
-                TOTTUS: { clep: 3, ccti: 4 },
-                PG: { clep: 0, ccti: 0 },
-                'CASA IDEAS': { clep: 0, ccti: 0 },
-                FALABELLA: { clep: 1, ccti: 1 }
+                WALMART: { clep: 8, ccti: 7, zeal: 0 },
+                GY: { clep: 30, ccti: 21, zeal: 0 },
+                ARCOR: { clep: 0, ccti: 0, zeal: 0 },
+                TOTTUS: { clep: 3, ccti: 4, zeal: 0 },
+                PG: { clep: 0, ccti: 0, zeal: 0 },
+                'CASA IDEAS': { clep: 0, ccti: 0, zeal: 0 },
+                FALABELLA: { clep: 1, ccti: 1, zeal: 0 }
             },
             etas: {
                 STI: {
@@ -627,22 +828,219 @@
                     PG: ['30-nov', '01-dic', '12-dic'],
                     'CASA IDEAS': ['26-nov']
                 }
-            }
+            },
+            retiros: [
+                { cliente: 'GOODYEAR', contenedores: 10, puerto: 'TPS' },
+                { cliente: 'WALMART', contenedores: 12, puerto: 'TPS' },
+                { cliente: 'ARCOR', contenedores: 2, puerto: 'STI - PCE' }
+            ]
         };
 
+        let datos = {};
         let tabActual = 0;
+
+        // ==================== FUNCIONES DE PERSISTENCIA ====================
+        
+        function cargarDatos() {
+            const datosGuardados = localStorage.getItem(STORAGE_KEY);
+            if (datosGuardados) {
+                try {
+                    datos = JSON.parse(datosGuardados);
+                    // Asegurar que zeal existe en distribuciones antiguas
+                    datos.clientes.forEach(cliente => {
+                        if (datos.distribucion[cliente] && datos.distribucion[cliente].zeal === undefined) {
+                            datos.distribucion[cliente].zeal = 0;
+                        }
+                    });
+                    // Asegurar que retiros existe
+                    if (!datos.retiros) {
+                        datos.retiros = deepClone(DATOS_INICIALES.retiros);
+                    }
+                } catch (e) {
+                    datos = deepClone(DATOS_INICIALES);
+                }
+            } else {
+                datos = deepClone(DATOS_INICIALES);
+            }
+        }
+        
+        function guardarDatos() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(datos));
+        }
+        
+        function resetearDatos() {
+            if (confirm('¿Estás seguro de que deseas resetear todos los datos a los valores iniciales? Esta acción no se puede deshacer.')) {
+                datos = deepClone(DATOS_INICIALES);
+                guardarDatos();
+                actualizarTodo();
+                mostrarMensaje('✓ Datos reseteados correctamente');
+            }
+        }
+
+        // ==================== FUNCIONES DE FECHA ====================
+        
+        function actualizarFecha() {
+            const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                          'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            const hoy = new Date();
+            const dia = String(hoy.getDate()).padStart(2, '0');
+            const mes = meses[hoy.getMonth()];
+            const año = hoy.getFullYear();
+            document.getElementById('fecha-dinamica').textContent = `${dia} de ${mes}, ${año}`;
+        }
+
+        // ==================== FUNCIONES DE CLIENTES ====================
+        
+        function agregarCliente(nombre) {
+            const nombreLimpio = nombre.trim().toUpperCase();
+            
+            if (!nombreLimpio) {
+                alert('Por favor ingresa un nombre de cliente válido.');
+                return false;
+            }
+            
+            if (datos.clientes.includes(nombreLimpio)) {
+                alert('Este cliente ya existe.');
+                return false;
+            }
+            
+            // Agregar a la lista de clientes
+            datos.clientes.push(nombreLimpio);
+            
+            // Inicializar en arribar
+            PUERTOS.forEach(puerto => {
+                datos.arribar[puerto][nombreLimpio] = 0;
+            });
+            
+            // Inicializar en disponible
+            PUERTOS.forEach(puerto => {
+                datos.disponible[puerto][nombreLimpio] = 0;
+            });
+            
+            // Inicializar distribución
+            datos.distribucion[nombreLimpio] = { clep: 0, ccti: 0, zeal: 0 };
+            
+            guardarDatos();
+            actualizarTodo();
+            mostrarMensaje('✓ Cliente agregado correctamente');
+            return true;
+        }
+
+        // ==================== FUNCIONES DE ETAs ====================
+        
+        function agregarETA(puerto, cliente, fecha) {
+            if (!puerto || !cliente || !fecha.trim()) {
+                alert('Por favor completa todos los campos.');
+                return false;
+            }
+            
+            if (!datos.etas[puerto]) {
+                datos.etas[puerto] = {};
+            }
+            
+            if (!datos.etas[puerto][cliente]) {
+                datos.etas[puerto][cliente] = [];
+            }
+            
+            datos.etas[puerto][cliente].push(fecha.trim());
+            guardarDatos();
+            actualizarTodo();
+            mostrarMensaje('✓ ETA agregada correctamente');
+            return true;
+        }
+        
+        function eliminarETA(puerto, cliente, index) {
+            if (confirm('¿Estás seguro de que deseas eliminar esta ETA?')) {
+                datos.etas[puerto][cliente].splice(index, 1);
+                
+                // Si no quedan ETAs para este cliente, eliminar la entrada
+                if (datos.etas[puerto][cliente].length === 0) {
+                    delete datos.etas[puerto][cliente];
+                }
+                
+                guardarDatos();
+                actualizarTodo();
+                mostrarMensaje('✓ ETA eliminada correctamente');
+            }
+        }
+
+        // ==================== FUNCIONES DE RETIROS ====================
+        
+        function agregarRetiro(cliente, contenedores, puerto) {
+            if (!cliente.trim() || !contenedores || !puerto.trim()) {
+                alert('Por favor completa todos los campos.');
+                return false;
+            }
+            
+            const cant = parseInt(contenedores);
+            if (isNaN(cant) || cant <= 0) {
+                alert('Por favor ingresa una cantidad válida de contenedores.');
+                return false;
+            }
+            
+            datos.retiros.push({
+                cliente: cliente.trim().toUpperCase(),
+                contenedores: cant,
+                puerto: puerto.trim()
+            });
+            
+            guardarDatos();
+            actualizarTodo();
+            mostrarMensaje('✓ Retiro agregado correctamente');
+            return true;
+        }
+        
+        function eliminarRetiro(index) {
+            if (confirm('¿Estás seguro de que deseas eliminar este retiro?')) {
+                datos.retiros.splice(index, 1);
+                guardarDatos();
+                actualizarTodo();
+                mostrarMensaje('✓ Retiro eliminado correctamente');
+            }
+        }
+
+        // ==================== FUNCIONES DE DISTRIBUCIÓN ====================
+        
+        function cambiarDistribucion(cliente, tipo, cambio) {
+            const nuevoValor = Math.max(0, datos.distribucion[cliente][tipo] + cambio);
+            datos.distribucion[cliente][tipo] = nuevoValor;
+            
+            const clienteId = cliente.toLowerCase().replace(/ /g, '');
+            const elem = document.getElementById(`dist-${clienteId}-${tipo}`);
+            if (elem) elem.textContent = nuevoValor;
+            
+            const total = datos.distribucion[cliente].clep + datos.distribucion[cliente].ccti + datos.distribucion[cliente].zeal;
+            const totalElem = document.getElementById(`dist-total-${clienteId}`);
+            if (totalElem) totalElem.textContent = total;
+            
+            // SINCRONIZACIÓN AUTOMÁTICA: actualizar tabla de disponibles usando las constantes de proporción
+            datos.disponible.STI[cliente] = Math.round(total * PROPORCION_STI);
+            datos.disponible.TPS[cliente] = total - datos.disponible.STI[cliente];
+            
+            guardarDatos();
+        }
+
+        function cambiarArribar(puerto, cliente, cambio) {
+            datos.arribar[puerto][cliente] = Math.max(0, datos.arribar[puerto][cliente] + cambio);
+            const id = `arribar-${puerto}-${cliente.toLowerCase().replace(/ /g, '')}`;
+            const elem = document.getElementById(id);
+            if (elem) elem.textContent = datos.arribar[puerto][cliente];
+            guardarDatos();
+        }
+
+        // ==================== FUNCIONES DE GENERACIÓN DE TABLAS ====================
 
         function generarTablaArribar() {
             const tabla = document.getElementById('tabla-arribar');
             let html = '<thead><tr><th>Puerto</th>';
-            CLIENTES.forEach(c => html += `<th>${c}</th>`);
+            datos.clientes.forEach(c => html += `<th>${escapeHtml(c)}</th>`);
             html += '<th class="total-col">TOTAL</th></tr></thead><tbody>';
 
             PUERTOS.forEach(puerto => {
-                html += `<tr><td class="puerto-col">${puerto}</td>`;
+                html += `<tr><td class="puerto-col">${escapeHtml(puerto)}</td>`;
                 let totalPuerto = 0;
-                CLIENTES.forEach(cliente => {
-                    const valor = datos. arribar[puerto][cliente];
+                datos.clientes.forEach(cliente => {
+                    const valor = datos.arribar[puerto][cliente] || 0;
                     totalPuerto += valor;
                     html += `<td>${valor}</td>`;
                 });
@@ -651,9 +1049,9 @@
 
             html += '<tr class="total-row"><td class="puerto-col">TOTAL</td>';
             let totalGeneral = 0;
-            CLIENTES.forEach(cliente => {
+            datos.clientes.forEach(cliente => {
                 let totalCliente = 0;
-                PUERTOS.forEach(puerto => totalCliente += datos.arribar[puerto][cliente]);
+                PUERTOS.forEach(puerto => totalCliente += (datos.arribar[puerto][cliente] || 0));
                 totalGeneral += totalCliente;
                 html += `<td>${totalCliente}</td>`;
             });
@@ -665,14 +1063,14 @@
         function generarTablaDisponible() {
             const tabla = document.getElementById('tabla-disponible');
             let html = '<thead><tr><th>Puerto</th>';
-            CLIENTES.forEach(c => html += `<th>${c}</th>`);
+            datos.clientes.forEach(c => html += `<th>${escapeHtml(c)}</th>`);
             html += '<th class="disponible-total-col">TOTAL</th></tr></thead><tbody>';
 
             PUERTOS.forEach(puerto => {
-                html += `<tr><td class="puerto-col">${puerto}</td>`;
+                html += `<tr><td class="puerto-col">${escapeHtml(puerto)}</td>`;
                 let totalPuerto = 0;
-                CLIENTES.forEach(cliente => {
-                    const valor = datos.disponible[puerto][cliente];
+                datos.clientes.forEach(cliente => {
+                    const valor = datos.disponible[puerto][cliente] || 0;
                     totalPuerto += valor;
                     html += `<td>${valor}</td>`;
                 });
@@ -681,9 +1079,9 @@
 
             html += '<tr class="disponible-total"><td class="puerto-col">TOTAL</td>';
             let totalGeneral = 0;
-            CLIENTES.forEach(cliente => {
+            datos.clientes.forEach(cliente => {
                 let totalCliente = 0;
-                PUERTOS.forEach(puerto => totalCliente += datos.disponible[puerto][cliente]);
+                PUERTOS.forEach(puerto => totalCliente += (datos.disponible[puerto][cliente] || 0));
                 totalGeneral += totalCliente;
                 html += `<td>${totalCliente}</td>`;
             });
@@ -696,32 +1094,84 @@
             const grid = document.getElementById('estado-grid');
             grid.innerHTML = '';
             
-            CLIENTES.forEach(cliente => {
+            datos.clientes.forEach(cliente => {
                 let totalDisponible = 0;
-                PUERTOS.forEach(puerto => totalDisponible += datos.disponible[puerto][cliente]);
+                PUERTOS.forEach(puerto => totalDisponible += (datos.disponible[puerto][cliente] || 0));
                 
                 const tieneDisponible = totalDisponible > 0;
-                const dist = datos.distribucion[cliente];
+                const dist = datos.distribucion[cliente] || { clep: 0, ccti: 0, zeal: 0 };
+                
+                // Generar subventanas solo para distribuidores con valores > 0
+                let subventanasHtml = '';
+                if (dist.clep > 0) {
+                    subventanasHtml += `
+                        <div class="subventana clep">
+                            <span class="subventana-label">CLEP</span>
+                            <div class="subventana-valor">${dist.clep}</div>
+                        </div>`;
+                }
+                if (dist.ccti > 0) {
+                    subventanasHtml += `
+                        <div class="subventana ccti">
+                            <span class="subventana-label">CCTI</span>
+                            <div class="subventana-valor">${dist.ccti}</div>
+                        </div>`;
+                }
+                if (dist.zeal > 0) {
+                    subventanasHtml += `
+                        <div class="subventana zeal">
+                            <span class="subventana-label">ZEAL</span>
+                            <div class="subventana-valor">${dist.zeal}</div>
+                        </div>`;
+                }
+                
+                // Si no hay ninguno con valor > 0, mostrar todos con 0
+                if (!subventanasHtml) {
+                    subventanasHtml = `
+                        <div class="subventana clep">
+                            <span class="subventana-label">CLEP</span>
+                            <div class="subventana-valor">0</div>
+                        </div>
+                        <div class="subventana ccti">
+                            <span class="subventana-label">CCTI</span>
+                            <div class="subventana-valor">0</div>
+                        </div>`;
+                }
                 
                 const card = document.createElement('div');
                 card.className = `estado-card ${tieneDisponible ? 'disponible' : 'sin-disponible'}`;
                 card.innerHTML = `
-                    <div class="cliente-nombre">${cliente}</div>
+                    <div class="cliente-nombre">${escapeHtml(cliente)}</div>
                     <div style="position: relative; display: inline-block;">
                         <div class="estado-icono">${tieneDisponible ? '🟢' : '🔴'}</div>
                         <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 14px; font-weight: bold; color: white;">${totalDisponible}</div>
                     </div>
                     <div class="estado-texto">${tieneDisponible ? 'Tiene disponible' : 'Sin disponible'}</div>
                     <div class="subventanas">
-                        <div class="subventana clep">
-                            <span class="subventana-label">CLEP</span>
-                            <div class="subventana-valor">${dist.clep}</div>
-                        </div>
-                        <div class="subventana ccti">
-                            <span class="subventana-label">CCTI</span>
-                            <div class="subventana-valor">${dist.ccti}</div>
-                        </div>
+                        ${subventanasHtml}
                     </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function generarRetiros() {
+            const grid = document.getElementById('retiros-grid');
+            grid.innerHTML = '';
+            
+            if (!datos.retiros || datos.retiros.length === 0) {
+                grid.innerHTML = '<p style="color: #666; text-align: center; width: 100%;">No hay retiros registrados</p>';
+                return;
+            }
+            
+            datos.retiros.forEach((retiro, index) => {
+                const card = document.createElement('div');
+                card.className = 'retiro-card';
+                card.innerHTML = `
+                    <button class="btn-eliminar-retiro" onclick="eliminarRetiro(${index})">×</button>
+                    <div style="font-weight: bold; font-size: 14px; color: #333; margin-bottom: 8px;">${escapeHtml(retiro.cliente)}</div>
+                    <div style="color: #666; font-size: 12px;">📦 ${retiro.contenedores} contenedores</div>
+                    <div style="color: #666; font-size: 12px; margin-top: 4px;">🚢 Puerto: ${escapeHtml(retiro.puerto)}</div>
                 `;
                 grid.appendChild(card);
             });
@@ -734,29 +1184,42 @@
             PUERTOS.forEach(puerto => {
                 const section = document.createElement('div');
                 section.className = 'etas-section';
-                section. innerHTML = `<h3>🏢 ${puerto}</h3><div class="etas-column" id="etas-${puerto}"></div>`;
+                section.innerHTML = `<h3>🏢 ${escapeHtml(puerto)}</h3><div class="etas-column" id="etas-${escapeHtml(puerto)}"></div>`;
                 grid.appendChild(section);
                 
                 const column = document.getElementById(`etas-${puerto}`);
                 if (datos.etas[puerto]) {
-                    Object.keys(datos.etas[puerto]). forEach(cliente => {
+                    Object.keys(datos.etas[puerto]).forEach(cliente => {
                         const fechas = datos.etas[puerto][cliente];
                         const card = document.createElement('div');
                         card.className = 'eta-card';
-                        card. innerHTML = `
-                            <div class="eta-cliente">${cliente}</div>
-                            ${fechas.map(f => `<div class="eta-fecha">📅 ${f}</div>`).join('')}
+                        const escapedCliente = escapeHtml(cliente);
+                        const escapedPuerto = escapeHtml(puerto);
+                        card.innerHTML = `
+                            <div class="eta-cliente">${escapedCliente}</div>
+                            ${fechas.map((f, idx) => `
+                                <div class="eta-fecha">
+                                    <span>📅 ${escapeHtml(f)}</span>
+                                    <button class="btn-eliminar-eta" onclick="eliminarETA('${escapedPuerto}', '${escapedCliente}', ${idx})">×</button>
+                                </div>
+                            `).join('')}
                             <div class="eta-naves">${fechas.length} nave${fechas.length > 1 ? 's' : ''}</div>
                         `;
                         column.appendChild(card);
                     });
                 }
+                
+                if (!datos.etas[puerto] || Object.keys(datos.etas[puerto]).length === 0) {
+                    column.innerHTML = '<p style="color: #999; font-size: 12px; text-align: center;">Sin ETAs programadas</p>';
+                }
             });
         }
 
+        // ==================== FUNCIONES DEL PANEL ====================
+
         function cambiarTab(index) {
             tabActual = index;
-            const tabs = document.querySelectorAll('. tab');
+            const tabs = document.querySelectorAll('.tab');
             tabs.forEach((tab, i) => {
                 tab.classList.toggle('activo', i === index);
             });
@@ -770,118 +1233,256 @@
                 contenido.innerHTML = generarPanelArribar();
             } else if (tabActual === 1) {
                 contenido.innerHTML = generarPanelDisponible();
-            } else {
+            } else if (tabActual === 2) {
                 contenido.innerHTML = generarPanelETAs();
+            } else {
+                contenido.innerHTML = generarPanelGestion();
             }
         }
 
         function generarPanelArribar() {
             let html = '<div class="tab-contenido activo">';
             PUERTOS.forEach(puerto => {
-                html += `<div class="seccion-edicion"><div class="seccion-titulo">📦 Puerto ${puerto}</div>`;
-                CLIENTES.forEach(cliente => {
-                    const id = `${puerto}-${cliente. toLowerCase().replace(/ /g, '')}`;
-                    const valor = datos.arribar[puerto][cliente];
+                const escapedPuerto = escapeHtml(puerto);
+                html += `<div class="seccion-edicion"><div class="seccion-titulo">📦 Puerto ${escapedPuerto}</div>`;
+                datos.clientes.forEach(cliente => {
+                    const escapedCliente = escapeHtml(cliente);
+                    const id = `${puerto}-${cliente.toLowerCase().replace(/ /g, '')}`;
+                    const valor = datos.arribar[puerto][cliente] || 0;
                     html += `
                         <div class="campo-edicion">
-                            <span class="campo-label">${cliente}</span>
+                            <span class="campo-label">${escapedCliente}</span>
                             <div class="campo-controles">
-                                <button class="btn-control" onclick="cambiarArribar('${puerto}', '${cliente}', -1)">−</button>
+                                <button class="btn-control" onclick="cambiarArribar('${escapedPuerto}', '${escapedCliente}', -1)">−</button>
                                 <div class="campo-valor" id="arribar-${id}">${valor}</div>
-                                <button class="btn-control" onclick="cambiarArribar('${puerto}', '${cliente}', 1)">+</button>
+                                <button class="btn-control" onclick="cambiarArribar('${escapedPuerto}', '${escapedCliente}', 1)">+</button>
                             </div>
                         </div>
                     `;
                 });
                 html += '</div>';
             });
-            html += '<button class="btn-guardar" onclick="aplicarCambios()">💾 Aplicar Cambios</button></div>';
+            html += '<button class="btn-guardar" onclick="aplicarCambios()">💾 Aplicar Cambios</button>';
+            html += '<button class="btn-resetear" onclick="resetearDatos()">🔄 Resetear Datos</button></div>';
             return html;
         }
 
         function generarPanelDisponible() {
             let html = '<div class="tab-contenido activo">';
-            CLIENTES.forEach(cliente => {
+            datos.clientes.forEach(cliente => {
+                const escapedCliente = escapeHtml(cliente);
                 const clienteId = cliente.toLowerCase().replace(/ /g, '');
-                const dist = datos.distribucion[cliente];
-                let totalDisponible = 0;
-                PUERTOS.forEach(p => totalDisponible += datos. disponible[p][cliente]);
+                const dist = datos.distribucion[cliente] || { clep: 0, ccti: 0, zeal: 0 };
+                let totalDisponible = dist.clep + dist.ccti + dist.zeal;
                 
                 html += `
                     <div class="seccion-edicion">
-                        <div class="seccion-titulo">${cliente}</div>
+                        <div class="seccion-titulo">${escapedCliente}</div>
                         <div class="campo-edicion">
                             <span class="campo-label">🔵 CLEP</span>
                             <div class="campo-controles">
-                                <button class="btn-control" onclick="cambiarDistribucion('${cliente}', 'clep', -1)">−</button>
+                                <button class="btn-control" onclick="cambiarDistribucion('${escapedCliente}', 'clep', -1)">−</button>
                                 <div class="campo-valor" id="dist-${clienteId}-clep">${dist.clep}</div>
-                                <button class="btn-control" onclick="cambiarDistribucion('${cliente}', 'clep', 1)">+</button>
+                                <button class="btn-control" onclick="cambiarDistribucion('${escapedCliente}', 'clep', 1)">+</button>
                             </div>
                         </div>
                         <div class="campo-edicion">
                             <span class="campo-label">🟠 CCTI</span>
                             <div class="campo-controles">
-                                <button class="btn-control" onclick="cambiarDistribucion('${cliente}', 'ccti', -1)">−</button>
+                                <button class="btn-control" onclick="cambiarDistribucion('${escapedCliente}', 'ccti', -1)">−</button>
                                 <div class="campo-valor" id="dist-${clienteId}-ccti">${dist.ccti}</div>
-                                <button class="btn-control" onclick="cambiarDistribucion('${cliente}', 'ccti', 1)">+</button>
+                                <button class="btn-control" onclick="cambiarDistribucion('${escapedCliente}', 'ccti', 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="campo-edicion">
+                            <span class="campo-label">🟣 ZEAL</span>
+                            <div class="campo-controles">
+                                <button class="btn-control zeal" onclick="cambiarDistribucion('${escapedCliente}', 'zeal', -1)">−</button>
+                                <div class="campo-valor" id="dist-${clienteId}-zeal">${dist.zeal}</div>
+                                <button class="btn-control zeal" onclick="cambiarDistribucion('${escapedCliente}', 'zeal', 1)">+</button>
                             </div>
                         </div>
                         <div style="text-align: center; margin-top: 8px; padding: 6px; background: white; border-radius: 4px;">
-                            <strong>Total:</strong> <span id="dist-total-${clienteId}">${dist.clep + dist.ccti}</span>
+                            <strong>Total:</strong> <span id="dist-total-${clienteId}">${totalDisponible}</span>
                         </div>
                     </div>
                 `;
             });
-            html += '<button class="btn-guardar" onclick="aplicarCambios()">💾 Aplicar Cambios</button></div>';
+            html += '<button class="btn-guardar" onclick="aplicarCambios()">💾 Aplicar Cambios</button>';
+            html += '<button class="btn-resetear" onclick="resetearDatos()">🔄 Resetear Datos</button></div>';
             return html;
         }
 
         function generarPanelETAs() {
             let html = '<div class="tab-contenido activo">';
-            html += '<p style="color: #666; font-size: 12px; margin-bottom: 15px;">Administrar fechas de llegada (ETAs) por cliente y puerto</p>';
+            html += '<div class="seccion-edicion">';
+            html += '<div class="seccion-titulo">➕ Agregar Nueva ETA</div>';
+            html += `
+                <div class="form-group">
+                    <label>Puerto</label>
+                    <select id="eta-puerto">
+                        ${PUERTOS.map(p => `<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Cliente</label>
+                    <select id="eta-cliente">
+                        ${datos.clientes.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Fecha (ej: 25-dic)</label>
+                    <input type="text" id="eta-fecha" placeholder="dd-mmm">
+                </div>
+                <button class="btn-agregar" onclick="agregarETADesdeFormulario()">➕ Agregar ETA</button>
+            `;
+            html += '</div>';
+            
+            // Mostrar ETAs existentes
+            html += '<div class="seccion-edicion">';
+            html += '<div class="seccion-titulo">📋 ETAs Existentes</div>';
+            PUERTOS.forEach(puerto => {
+                if (datos.etas[puerto] && Object.keys(datos.etas[puerto]).length > 0) {
+                    html += `<p style="font-weight: bold; margin-top: 10px;">${escapeHtml(puerto)}:</p>`;
+                    Object.keys(datos.etas[puerto]).forEach(cliente => {
+                        const escapedPuerto = escapeHtml(puerto);
+                        const escapedCliente = escapeHtml(cliente);
+                        datos.etas[puerto][cliente].forEach((fecha, idx) => {
+                            html += `
+                                <div class="campo-edicion">
+                                    <span class="campo-label">${escapedCliente}: ${escapeHtml(fecha)}</span>
+                                    <button class="btn-eliminar-eta" onclick="eliminarETA('${escapedPuerto}', '${escapedCliente}', ${idx})">×</button>
+                                </div>
+                            `;
+                        });
+                    });
+                }
+            });
+            html += '</div>';
+            
             html += '<button class="btn-guardar" onclick="aplicarCambios()">💾 Aplicar Cambios</button></div>';
             return html;
         }
 
-        function cambiarArribar(puerto, cliente, cambio) {
-            datos.arribar[puerto][cliente] = Math.max(0, datos.arribar[puerto][cliente] + cambio);
-            const id = `arribar-${puerto}-${cliente.toLowerCase().replace(/ /g, '')}`;
-            document.getElementById(id).textContent = datos.arribar[puerto][cliente];
+        function generarPanelGestion() {
+            let html = '<div class="tab-contenido activo">';
+            
+            // Sección para agregar clientes
+            html += '<div class="seccion-edicion">';
+            html += '<div class="seccion-titulo">👥 Agregar Nuevo Cliente</div>';
+            html += `
+                <div class="form-group">
+                    <label>Nombre del Cliente</label>
+                    <input type="text" id="nuevo-cliente" placeholder="Nombre del cliente">
+                </div>
+                <button class="btn-agregar" onclick="agregarClienteDesdeFormulario()">➕ Agregar Cliente</button>
+            `;
+            html += '</div>';
+            
+            // Sección para agregar retiros
+            html += '<div class="seccion-edicion">';
+            html += '<div class="seccion-titulo">📤 Agregar Retiro de Nave</div>';
+            html += `
+                <div class="form-group">
+                    <label>Cliente</label>
+                    <input type="text" id="retiro-cliente" placeholder="Nombre del cliente">
+                </div>
+                <div class="form-group">
+                    <label>Contenedores</label>
+                    <input type="number" id="retiro-contenedores" placeholder="Cantidad" min="1">
+                </div>
+                <div class="form-group">
+                    <label>Puerto</label>
+                    <input type="text" id="retiro-puerto" placeholder="Ej: TPS, STI - PCE">
+                </div>
+                <button class="btn-agregar" onclick="agregarRetiroDesdeFormulario()">➕ Agregar Retiro</button>
+            `;
+            html += '</div>';
+            
+            // Lista de retiros actuales
+            html += '<div class="seccion-edicion">';
+            html += '<div class="seccion-titulo">📋 Retiros Actuales</div>';
+            if (datos.retiros && datos.retiros.length > 0) {
+                datos.retiros.forEach((retiro, idx) => {
+                    html += `
+                        <div class="campo-edicion">
+                            <span class="campo-label">${escapeHtml(retiro.cliente)} - ${retiro.contenedores} cont. (${escapeHtml(retiro.puerto)})</span>
+                            <button class="btn-eliminar-eta" onclick="eliminarRetiro(${idx})">×</button>
+                        </div>
+                    `;
+                });
+            } else {
+                html += '<p style="color: #999; font-size: 12px;">No hay retiros registrados</p>';
+            }
+            html += '</div>';
+            
+            html += '<button class="btn-guardar" onclick="aplicarCambios()">💾 Aplicar Cambios</button>';
+            html += '<button class="btn-resetear" onclick="resetearDatos()">🔄 Resetear Datos</button></div>';
+            return html;
         }
 
-        function cambiarDistribucion(cliente, tipo, cambio) {
-            const nuevoValor = Math.max(0, datos.distribucion[cliente][tipo] + cambio);
-            datos.distribucion[cliente][tipo] = nuevoValor;
+        // ==================== FUNCIONES AUXILIARES DE FORMULARIOS ====================
+
+        function agregarETADesdeFormulario() {
+            const puerto = document.getElementById('eta-puerto').value;
+            const cliente = document.getElementById('eta-cliente').value;
+            const fecha = document.getElementById('eta-fecha').value;
             
-            const clienteId = cliente.toLowerCase().replace(/ /g, '');
-            document.getElementById(`dist-${clienteId}-${tipo}`).textContent = nuevoValor;
-            
-            const total = datos.distribucion[cliente].clep + datos.distribucion[cliente]. ccti;
-            document.getElementById(`dist-total-${clienteId}`).textContent = total;
-            
-            // SINCRONIZACIÓN AUTOMÁTICA: actualizar tabla de disponibles
-            const proporcionSTI = 0.87;
-            datos.disponible. STI[cliente] = Math.round(total * proporcionSTI);
-            datos.disponible.TPS[cliente] = total - datos.disponible.STI[cliente];
+            if (agregarETA(puerto, cliente, fecha)) {
+                document.getElementById('eta-fecha').value = '';
+                generarContenidoPanel();
+            }
         }
 
-        function aplicarCambios() {
-            generarTablaArribar();
-            generarTablaDisponible();
-            generarEstadoClientes();
-            generarETAs();
-            cerrarPanel();
+        function agregarClienteDesdeFormulario() {
+            const nombre = document.getElementById('nuevo-cliente').value;
+            if (agregarCliente(nombre)) {
+                document.getElementById('nuevo-cliente').value = '';
+                generarContenidoPanel();
+            }
+        }
+
+        function agregarRetiroDesdeFormulario() {
+            const cliente = document.getElementById('retiro-cliente').value;
+            const contenedores = document.getElementById('retiro-contenedores').value;
+            const puerto = document.getElementById('retiro-puerto').value;
             
+            if (agregarRetiro(cliente, contenedores, puerto)) {
+                document.getElementById('retiro-cliente').value = '';
+                document.getElementById('retiro-contenedores').value = '';
+                document.getElementById('retiro-puerto').value = '';
+                generarContenidoPanel();
+            }
+        }
+
+        // ==================== FUNCIONES DE UI ====================
+
+        function mostrarMensaje(texto) {
             const mensaje = document.createElement('div');
-            mensaje.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #4CAF50; color: white; padding: 15px 25px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 2000; font-weight: bold;';
-            mensaje. textContent = '✓ Cambios aplicados correctamente';
+            mensaje.className = 'mensaje-exito';
+            mensaje.textContent = texto;
             document.body.appendChild(mensaje);
             
             setTimeout(() => {
                 mensaje.style.transition = 'opacity 0.3s';
-                mensaje.style. opacity = '0';
+                mensaje.style.opacity = '0';
                 setTimeout(() => mensaje.remove(), 300);
             }, 2000);
+        }
+
+        function aplicarCambios() {
+            guardarDatos();
+            actualizarTodo();
+            cerrarPanel();
+            mostrarMensaje('✓ Cambios aplicados correctamente');
+        }
+
+        function actualizarTodo() {
+            generarTablaArribar();
+            generarTablaDisponible();
+            generarEstadoClientes();
+            generarRetiros();
+            generarETAs();
         }
 
         function abrirPanel() {
@@ -891,15 +1492,16 @@
         }
 
         function cerrarPanel() {
-            document.getElementById('panel-edicion').classList. remove('abierto');
-            document.getElementById('overlay').classList. remove('activo');
+            document.getElementById('panel-edicion').classList.remove('abierto');
+            document.getElementById('overlay').classList.remove('activo');
         }
 
+        // ==================== INICIALIZACIÓN ====================
+
         window.onload = function() {
-            generarTablaArribar();
-            generarTablaDisponible();
-            generarEstadoClientes();
-            generarETAs();
+            cargarDatos();
+            actualizarFecha();
+            actualizarTodo();
         };
     </script>
 </body>
